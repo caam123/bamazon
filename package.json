@@ -1,0 +1,25 @@
+{
+  "name": "bamazon",
+  "version": "1.0.0",
+  "description": "Bamazon CLI App",
+  "main": "customer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/caam123/bamazon.git"
+  },
+  "keywords": [
+    "bamazon"
+  ],
+  "author": "Me",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/caam123/bamazon/issues"
+  },
+  "homepage": "https://github.com/caam123/bamazon#readme",
+  "dependencies": {
+    "mysql": "^2.17.1"
+  }
+}
