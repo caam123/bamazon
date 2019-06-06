@@ -1,5 +1,5 @@
 var mysql = require("mysql");
-var Table = require("cli-table");
+var inquirer = require("inquirer");
 // var inquire = require("inquirer");
 
 //Connection
@@ -12,30 +12,99 @@ var connection = mysql.createConnection({
     database: "bamazondb"
 });
 
-var table = new Table({
-});
 
 connection.connect(function(err){
     if(err) throw err;
     console.log("Conecction: Succesful!")
-    displayData();
 });
 
-function displayData(){
+
+
+function start(){
     connection.query("select * from products", function(err, data){
         if(!err);
-            res.json(data);
-            
-            console.log(data)
+           // res.json(data);
+        console.table(data);
 
-        
-        //console.log(table.toString());
+        inquirer.prompt([
+            {
+                name: "whatID",
+                type: "input",
+                message: "Please, type the ID of the product you want to buy",
+                validate: function(value){
+                    if(isNaN(value)===false){
+                        return true;
+                    }
+                        return false;
+                } 
+            },
+            {
+                name: "howMany",
+                type: "input",
+                message: "How many items you would like to buy?",
+                validate: function(value){
+                    if(isNaN(value)=== false){
+                        return true;
+                    } return false;
+                }
+            }
+        ])
+        .then(function(answer){
+            var idProduct = answer.whatID;
+            var quantity = answer.howMany;
 
+            //Check if the Items selected are available for that ID
+            connection.query("SELECT * FROM products WHERE ?",{
+                item_id: idProduct
+            }, function (err, dataItem){
+                console.log("this is the fucking id" + idProduct)
+                //console.table(dataItem);
+                //console.log(dataItem[0].stock);
+                console.log("------------------------------Checking if there's enough of what you want-------------------------");
+                if(quantity <= dataItem[0].stock){
+                    console.log("We have enough " + dataItem[0].product_name + " :)")
+                    console.log("Stock: " + dataItem[0].stock + " | " + "You ordered: " + quantity + " items");
+
+                    //This is the value which updates de DataBase
+                    var newStock = dataItem[0].stock - quantity;
+                    //console.log(newStock);
+                    
+                    //Showing the total cost of the purchase
+                    console.log("Your total is: $ " + (dataItem[0].price * quantity));
+
+                    //Updating the stock 
+                    connection.query
+                    ("UPDATE products SET ? WHERE ?",
+                    [
+                        {
+                            stock: newStock,
+                        },
+                        {
+                            item_id:idProduct
+                        }
+                    ],
+                        function(error, res){
+                            //console.log(res.affectedRows + " products updated!")
+                            display();
+                            
+                        }); 
+                    
+                }
+            }
+            )
+        })
+    });
+};
+
+start();
+
+
+//----- Functions for later -----
+
+function display(){
+    connection.query("select * from products", function(err, data){
+        if(!err);
+           // res.json(data);
+        console.table(data);
     });
 }
-
-// I use npm cli-table
-// I'm trying to display the data in a comprehensible format
-// cli-table works but i'm having trouble with row data packet,i cannot acces each object information
-//i've seen a solution with rows and res.json but i havent figured out how to implement those correctly. 
-
