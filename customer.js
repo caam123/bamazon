@@ -89,6 +89,10 @@ function start(){
                             
                         }); 
                     
+                }else{
+                    console.log("\nSorry, we don't have enough items available, please try again\n");
+                    console.log("===============================================================\n");
+                    start();
                 }
             }
             )
