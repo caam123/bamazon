@@ -9,5 +9,7 @@ In this activit I created an Amazon-like storefront using MySQL, node.js and Inq
 * It also asks if you want to order anything else, if so it will display de info again, otherwise, ends the purchase and thanks you for the visit.
 * Enjoy!
 
-Repository in [GitHub](https://github.com/caam123/bamazon)
-Porffolio with demo video [here](https://caam123.github.io/Bootstrap-portfolio/bamazon.html)
+### Useful links
+
+* Repository in [GitHub](https://github.com/caam123/bamazon)
+* Porffolio with demo video [here](https://caam123.github.io/Bootstrap-portfolio/bamazon.html)
