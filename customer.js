@@ -57,10 +57,9 @@ function start(){
             connection.query("SELECT * FROM products WHERE ?",{
                 item_id: idProduct
             }, function (err, dataItem){
-                console.log("this is the fucking id" + idProduct)
                 //console.table(dataItem);
                 //console.log(dataItem[0].stock);
-                console.log("------------------------------Checking if there's enough of what you want-------------------------");
+                console.log("==== Checking if there's enough " + dataItem[0].product_name , "===");
                 if(quantity <= dataItem[0].stock){
                     console.log("We have enough " + dataItem[0].product_name + " :)")
                     console.log("Stock: " + dataItem[0].stock + " | " + "You ordered: " + quantity + " items");
@@ -85,9 +84,28 @@ function start(){
                     ],
                         function(error, res){
                             //console.log(res.affectedRows + " products updated!")
-                            display();
+                            
+                            console.log("=========================")
+
+                            inquirer.prompt([
+                                {
+                                    name: "buyAgain",
+                                    type:"confirm",
+                                    message:"Would you like to buy something else?"
+                                }
+                            ]).then(function(res){
+                                if(res.buyAgain === true) {
+                                    start();
+                                }else{
+                                    console.log("=======");
+                                    console.log("Thanks for visiting us");
+                                    console.log("=======")
+                                }
+                            
+                            })
                             
                         }); 
+
                     
                 }else{
                     console.log("\nSorry, we don't have enough items available, please try again\n");
